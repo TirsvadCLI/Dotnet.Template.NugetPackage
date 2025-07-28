@@ -61,7 +61,10 @@ In github forks this project to your account and adjust it for your need.
 dotnet add package NugetPackageName
 ```
 
----
+
+## Usage
+
+### Notes
 
 Change TirsvadCLI/Dotnet.Template.NugetPackage with the name of your project.
 Change NugetPackageName with the name of your nuget package.
@@ -104,9 +107,34 @@ In project file for library, add the following lines:
   </ItemGroup>
 ```
 
-## Usage
+#### Increment version number script file
 
-### Notes
+run the command with parameters or change the top of the script file for your need
+
+change these lines
+```powershell
+param(
+    # Path to the project file; adjust this default value if needed.  
+    [string]$ProjectFilePath = "$PSScriptRoot/src/Example/Example.csproj",
+    # Path to the NuGet API key for authentication.  
+    [string]$NuGetApiKey = "$env:NugetTirsvadCLI",  # Replace with your actual API key or set it in the environment variable.
+    # NuGet source URL (default is nuget.org).  
+    [string]$NuGetSource = "https://api.nuget.org/v3/index.json",
+    # Path to the certificate file (PFX format) for signing
+    [string]$CertificatePath = "$PSScriptRoot/../../../cert/NugetCertTirsvad/Tirsvad.pfx",
+    # Password for the certificate file
+    [string]$CertificatePassword = "$env:CertTirsvadPassword", # Replace with your actual password or set it in the environment variable.
+    # Is this a NuGet package?
+    [switch]$IsNuGetPackage = $true,
+    # Selfsigned nuget should be off as Nuget.org donnot accept selfsigned packages
+    [switch]$SelfSignedNuGet = $true,
+    # Path to signtool.exe
+    [string]$SignToolPath = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\signtool.exe"
+)
+```
+
+and then run .\IncrementBuildAndPush.ps1
+
 
 ## Example of code
 See example [here][example-url]
